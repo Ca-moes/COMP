@@ -17,7 +17,7 @@ public interface CalculatorTreeConstants
     "Sub",
     "Mul",
     "Div",
-    "Term"
+    "Term",
   };
 }
-/* JavaCC - OriginalChecksum=a5c702956be14b1816565c2327442f5e (do not edit this line) */
+/* JavaCC - OriginalChecksum=2cded796cda72334a33cc787ef57044b (do not edit this line) */
