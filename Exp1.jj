@@ -9,11 +9,6 @@ public class SyntaxChecker {
             // Catching Throwable is ugly but JavaCC throws Error objects!
             System.out.println("Syntax check failed: " + e.getMessage());
         }
-		
-		
-		
-		
-		
     }
 }
 
