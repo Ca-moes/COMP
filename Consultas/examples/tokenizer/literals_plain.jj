@@ -1,0 +1,9 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(Literals)
+public class Literals {} 
+PARSER_END(Literals)
+TOKEN : {
+  <HELLO : "hello">
+}

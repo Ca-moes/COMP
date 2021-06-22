@@ -1,0 +1,11 @@
+Intro to Compilers I 			- 16/02
+Intro to Compilers II 			- 16/02
+Memory packing and alignment 		- 04/03
+Grammars and parsers 			- 04/03
+Semantic Analysis I / Semantic Errors 	- 04/03
+Memory Layout MultiDimensional Arrays 	- 11/03
+Dataflow Analysis, Liveliness Analysis 	- 06/05
+Code Generation I 			- 31/05
+Code Generation II 			- 31/05
+Instruction Selection 			- 31/05
+Scheduling 				- 31/05

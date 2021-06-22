@@ -1,0 +1,7 @@
+<IN_RED>
+SKIP : {
+    " "
+}
+TOKEN : {
+    <BLUE : "blue"> {System.out.println("Switching to IN_BLUE");} : IN_BLUE
+}

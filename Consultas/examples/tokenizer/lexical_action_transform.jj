@@ -1,0 +1,20 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(LexicalActionTransform)
+public class LexicalActionTransform {}
+PARSER_END(LexicalActionTransform)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    LexicalActionTransformTokenManager mgr = new LexicalActionTransformTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        debugStream.println("Found token:" + t.image);
+    }
+  }
+}    
+TOKEN : {
+  <A : "A"> {matchedToken.image = image.append("B").toString();}
+}

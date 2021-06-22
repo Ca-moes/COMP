@@ -1,0 +1,4 @@
+PARSER_BEGIN(Egen)
+public class Egen {}
+PARSER_END(Egen)
+TOKEN : { <A : "A">}

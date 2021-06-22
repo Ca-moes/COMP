@@ -1,0 +1,25 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(Postfix)
+public class Postfix {}
+PARSER_END(Postfix)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) throws Exception {
+    java.io.Reader r = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(r);
+    PostfixTokenManager mgr = new PostfixTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+      System.out.println("Found a " + PostfixConstants.tokenImage[t.kind] + ": " + t.image);
+    }
+  }
+}    
+SKIP : {
+  " "
+}
+TOKEN : {
+    <PLUS: "+">
+  | <MINUS: "-">
+  | <DIGITS: (["0"-"9"])+>
+}

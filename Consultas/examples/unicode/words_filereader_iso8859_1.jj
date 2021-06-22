@@ -1,0 +1,24 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(Words)
+public class Words {}
+PARSER_END(Words)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) throws java.io.IOException {
+    java.io.InputStream is = new java.io.FileInputStream(args[0]);
+    java.io.Reader r = new java.io.InputStreamReader(is, "ISO_8859-1");
+    SimpleCharStream scs = new SimpleCharStream(r);
+    WordsTokenManager mgr = new WordsTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != WordsConstants.EOF;
+      t = mgr.getNextToken()) {
+        System.out.println("Found token:" + t.image);
+    }
+  }
+}    
+SKIP : {
+  " " | "\n"
+}
+TOKEN : {
+  <WORD : (["A"-"Z","a"-"z","ü"])+>
+}

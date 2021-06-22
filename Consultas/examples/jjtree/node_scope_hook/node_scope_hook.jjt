@@ -1,0 +1,49 @@
+options {
+  MULTI=true;
+  NODE_SCOPE_HOOK=true;
+}
+PARSER_BEGIN(Hook)
+import java.io.*;
+public class Hook {
+  public static int depth;
+  public static void main(String[] args) {
+    Reader sr = new StringReader(args[0]);
+    Hook p = new Hook(sr);
+    try {
+      p.Expression();
+    } catch (ParseException pe) {
+      pe.printStackTrace();
+    }
+  }
+  private static String pad() {
+    StringBuffer sb = new StringBuffer();
+    for (int i=0; i<depth; i++) {
+      sb.append(" ");
+    }
+    return sb.toString();
+  }
+  public static void jjtreeOpenNodeScope(Node n) {
+    System.out.println(pad() + "Opening scope for " + n.getClass());
+    depth++;
+  }
+  public static void jjtreeCloseNodeScope(Node n) {
+    depth--;
+    System.out.println(pad() + "Closing scope for " + n.getClass());
+  }
+}
+PARSER_END(Hook)
+SKIP : {
+  " "
+}
+TOKEN : { 
+  <DIGITS : (["0"-"9"])+> | <PLUS : "+"> 
+}
+void Expression() : {} { 
+  Add() 
+}
+void Add() : {} {
+  Operand() ("+" Operand())* 
+}
+void Operand() : {Token t;} { 
+  <DIGITS> 
+}

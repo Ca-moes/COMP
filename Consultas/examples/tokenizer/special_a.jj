@@ -1,0 +1,25 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(SpecialA)
+public class SpecialA {}
+PARSER_END(SpecialA)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    SpecialATokenManager mgr = new SpecialATokenManager(scs);
+    Token t = mgr.getNextToken();
+    debugStream.println("Found token: " + t.image);
+    while (t.specialToken != null) {
+      debugStream.println("There's a special token:" + t.specialToken.image);
+      t = t.specialToken;
+    }
+  }
+}
+SPECIAL_TOKEN : {
+  <A : "a" >
+}
+TOKEN : {
+  <B : "b">
+}

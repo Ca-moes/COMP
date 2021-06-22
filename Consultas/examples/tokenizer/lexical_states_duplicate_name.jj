@@ -1,0 +1,24 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(LexicalStatesSpaces)
+public class LexicalStatesSpaces {}
+PARSER_END(LexicalStatesSpaces)
+<IN_RED, IN_BLUE, IN_GREEN> SKIP : { " " }
+TOKEN :
+{ <RED: "red"> {debugStream.println("Switching to IN_RED");} : IN_RED }
+
+<IN_RED> 
+TOKEN :
+{ <BLUE : "blue"> {debugStream.println("Switching to IN_BLUE");} : IN_BLUE }
+
+<IN_BLUE> 
+TOKEN :
+{ 
+  <GREEN : "green"> {debugStream.println("Switching to IN_GREEN");} : IN_GREEN 
+| <RED : "red"> {debugStream.println("Switching back to IN_RED");} : IN_RED  
+}
+
+<IN_GREEN> 
+TOKEN :
+{ <DONE : "default"> {debugStream.println("Switching to DEFAULT");} : DEFAULT }

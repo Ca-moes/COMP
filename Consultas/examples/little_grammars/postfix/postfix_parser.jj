@@ -1,0 +1,30 @@
+PARSER_BEGIN(Postfix)
+import java.io.*;
+public class Postfix {
+  public static void main(String[] args) throws Exception {
+    Reader r = new StringReader(args[0]);
+    Postfix p = new Postfix(r);
+    p.Expression();
+  }
+}
+PARSER_END(Postfix)
+SKIP : {
+  " "
+}
+TOKEN : {
+    <PLUS: "+">
+  | <MINUS: "-">
+  | <DIGITS: (["0"-"9"])+>
+}
+void Expression() : {} {
+  Factor() (Term() Operator())*
+}
+void Term() : {} {
+  LOOKAHEAD(2) Expression() | Factor()
+}
+void Factor() : {} {
+  <DIGITS> 
+}
+void Operator() : {} {
+  "+" | "-" 
+}

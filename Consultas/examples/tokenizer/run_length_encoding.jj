@@ -1,0 +1,30 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(RunLengthEncoding)
+public class RunLengthEncoding {}
+PARSER_END(RunLengthEncoding)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    RunLengthEncodingTokenManager mgr = new RunLengthEncodingTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        debugStream.println("Found a token: " + t.image);
+    }
+  }
+}    
+TOKEN : {
+  <RL_STR : ["0"-"9"] ":"> 
+  {
+    int length = Integer.parseInt(matchedToken.image.substring(0,1));
+    try {
+      for (int i=0; i<length; i++) { 
+        matchedToken.image = matchedToken.image + input_stream.readChar(); 
+      }
+    } catch (java.io.IOException ioe) {
+      ioe.printStackTrace();
+    }
+  }
+}

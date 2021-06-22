@@ -1,0 +1,46 @@
+PARSER_BEGIN(Calculator)
+import java.io.*;
+import java.util.*;
+public class Calculator {
+  public static void main(String[] args) {
+    Reader sr = new StringReader(args[0]);
+    Calculator p = new Calculator(sr);
+    try {
+      SimpleNode node = p.Expression();
+      System.out.println("The answer is " + node.image);    
+    } catch (ParseException pe) {
+      pe.printStackTrace();
+    }
+  }
+}
+PARSER_END(Calculator)
+SKIP : {
+  " "
+}
+TOKEN : {
+  <DIGITS : (["0"-"9"])+> | <PLUS : "+">
+}
+SimpleNode Expression() : {} {
+  Operator()
+  {
+    SimpleNode first = (SimpleNode)jjtThis.jjtGetChild(0).jjtGetChild(0);
+    int firstValue = Integer.parseInt(first.image);
+    SimpleNode second = (SimpleNode)jjtThis.jjtGetChild(0).jjtGetChild(1);
+    int secondValue = Integer.parseInt(second.image);
+    SimpleNode operator = (SimpleNode)jjtThis.jjtGetChild(0);
+    if (operator.image.equals("+")) {
+      jjtThis.setImage(String.valueOf(firstValue + secondValue));
+    } else {
+      System.out.println("Unknown operator");
+    }
+    return jjtThis;
+  }
+}
+void Operator() : {Token t;} {
+  Operand()
+  t="+" {jjtThis.setImage(t.image);}
+  Operand()
+}
+void Operand() : {Token t;} {
+  t=<DIGITS> {jjtThis.setImage(t.image);}
+}

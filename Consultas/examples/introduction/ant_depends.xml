@@ -1,0 +1,11 @@
+<project name="simple" basedir=".">
+  <target name="runjavacc">
+    <taskdef name="javacc" 
+      classname="org.apache.tools.ant.taskdefs.optional.javacc.JavaCC"/>
+    <javacc target="simple.jj" 
+      outputdirectory="." javacchome="/usr/local/javacc/" />
+  </target>
+  <target name="compile" depends="runjavacc">
+    <javac srcdir="." destdir="."/>
+  </target>
+</project>

@@ -1,0 +1,23 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(MoreName)
+public class MoreName {}
+PARSER_END(MoreName)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    MoreNameTokenManager mgr = new MoreNameTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+      debugStream.println("Found token:" + t.image);
+    }
+  }
+}
+MORE : {
+  <NAME : ["A"-"Z"] (["a"-"z"])+ >
+}
+TOKEN : {
+  <DONE : " is my name">
+}

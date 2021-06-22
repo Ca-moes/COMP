@@ -1,0 +1,49 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(LexicalStatesSpaces)
+public class LexicalStatesSpaces {}
+PARSER_END(LexicalStatesSpaces)
+TOKEN_MGR_DECLS : {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    LexicalStatesSpacesTokenManager mgr = new LexicalStatesSpacesTokenManager(scs);
+    while (mgr.getNextToken().kind != EOF) {}
+  }
+}
+
+SKIP : { 
+  " " 
+}
+<DEFAULT, IN_BLUE>
+TOKEN : {
+  <RED: "red"> {debugStream.println("Switching to IN_RED");} : IN_RED 
+}
+
+<IN_RED> 
+SKIP : { 
+  " " 
+}
+<IN_RED> 
+TOKEN : {
+  <BLUE : "blue"> {debugStream.println("Switching to IN_BLUE");} : IN_BLUE 
+}
+
+<IN_BLUE> 
+SKIP : { 
+  " " 
+}
+<IN_BLUE> 
+TOKEN : {
+  <GREEN : "green"> {debugStream.println("Switching to IN_GREEN");} : IN_GREEN 
+}
+
+<IN_GREEN>
+SKIP : { 
+  " " 
+}
+<IN_GREEN> 
+TOKEN : {
+  <DONE : "default"> {debugStream.println("Switching to DEFAULT");} : DEFAULT 
+}

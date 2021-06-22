@@ -1,0 +1,24 @@
+options {
+  BUILD_PARSER=false;
+  JAVA_UNICODE_ESCAPE=true;
+}
+PARSER_BEGIN(Words)
+public class Words {}
+PARSER_END(Words)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) throws Exception {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    JavaCharStream jcs = new JavaCharStream(sr);
+    WordsTokenManager mgr = new WordsTokenManager(jcs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        debugStream.println("Found token:" + t.image);
+    }
+  }
+}    
+SKIP : {
+  " " | "\n"
+}
+TOKEN : {
+  <WORD : (["A"-"Z","a"-"z","\u00FC"])+> 
+}

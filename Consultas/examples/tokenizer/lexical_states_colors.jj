@@ -1,0 +1,32 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(LexicalStatesColors)
+public class LexicalStatesColors {}
+PARSER_END(LexicalStatesColors)
+TOKEN_MGR_DECLS : {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    LexicalStatesColorsTokenManager mgr = new LexicalStatesColorsTokenManager(scs);
+    while (mgr.getNextToken().kind != EOF) {}
+  }
+}
+TOKEN : { 
+  <RED: "red"> {debugStream.println("Switching to IN_RED");} : IN_RED 
+}
+
+<IN_RED> 
+TOKEN : {
+  <BLUE : "blue"> {debugStream.println("Switching to IN_BLUE");} : IN_BLUE 
+}
+
+<IN_BLUE> 
+TOKEN : {
+  <GREEN: "green"> {debugStream.println("Switching to IN_GREEN");} : IN_GREEN 
+}
+
+<IN_GREEN> 
+TOKEN : {
+  <DONE : "default"> {debugStream.println("Switching to DEFAULT");} : DEFAULT
+}

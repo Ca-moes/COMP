@@ -1,0 +1,43 @@
+PARSER_BEGIN(Logo)
+import java.io.*;
+public class Logo {
+  public static void main(String[] args) throws Exception {
+    Reader r = new FileReader(args[0]);
+    Logo p = new Logo(r);
+    p.Program();
+ }
+}
+PARSER_END(Logo)
+SKIP : {
+  " " 
+}
+TOKEN : {
+  <FORWARD : "FORWARD">
+  | <RIGHT : "RIGHT">
+  | <DIGITS: (["1"-"9"])+ (["0"-"9"])*>
+  | <EOL : "\n" | "\r" | "\r\n">
+}
+void Program() : {} {
+  (
+  Move() {System.out.println("Processed a Move()");}
+  | LOOKAHEAD(2) Turn() {System.out.println("Processed a Turn()");}
+  | <EOF> {return;}
+  | skipThisCommand()
+  )+ 
+}
+void Move() : {} {
+  <FORWARD> <DIGITS> <EOL>
+}
+void Turn() : {} {
+  <RIGHT> <DIGITS> <EOL>
+}
+JAVACODE
+String skipThisCommand() {
+  ParseException pe = generateParseException();
+  System.out.println("Skipping line " + (pe.currentToken.beginLine + 1) + " due to a parsing problem");
+  Token t;
+  do {
+    t = getNextToken();
+  } while (t.kind != EOL);
+  return t.image;
+}

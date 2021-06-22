@@ -1,0 +1,21 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(DebugStream)
+public class DebugStream {}
+PARSER_END(DebugStream)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) throws java.io.IOException {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    DebugStreamTokenManager mgr = new DebugStreamTokenManager(scs);
+    java.io.FileOutputStream fos = new java.io.FileOutputStream("debug.txt");
+    java.io.PrintStream debugStream = new java.io.PrintStream(fos);
+    mgr.setDebugStream(debugStream);
+    while (mgr.getNextToken().kind != EOF) {}
+    debugStream.close();
+  }
+}    
+TOKEN : {
+  <HELLO : "hello"> {debugStream.println("Found a <HELLO>!");}
+}

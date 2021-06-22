@@ -1,0 +1,37 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(LexicalStatesFreeStanding)
+public class LexicalStatesFreeStanding {}
+PARSER_END(LexicalStatesFreeStanding)
+TOKEN : { 
+  <RED: "red"> {debugStream.println("Switching to IN_RED");} : IN_RED 
+}
+
+<IN_BLUE> 
+SKIP : { 
+  " " 
+}
+<IN_BLUE> 
+TOKEN : { 
+  <GREEN : "green"> {debugStream.println("Switching to IN_GREEN");} : IN_GREEN 
+| <RED> {debugStream.println("Switching back to IN_RED");} : IN_RED  
+}
+
+<IN_RED> 
+SKIP : { 
+  " " 
+}
+<IN_RED> 
+TOKEN : {
+  <BLUE : "blue"> {debugStream.println("Switching to IN_BLUE");} : IN_BLUE 
+}
+
+<IN_GREEN>
+SKIP : { 
+  " " 
+}
+<IN_GREEN> 
+TOKEN : {
+  <DONE : "default"> {debugStream.println("Switching to DEFAULT");} : DEFAULT 
+}

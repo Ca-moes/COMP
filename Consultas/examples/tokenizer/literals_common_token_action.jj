@@ -1,0 +1,25 @@
+options {
+  BUILD_PARSER=false;
+  COMMON_TOKEN_ACTION=true;
+}
+PARSER_BEGIN(Literals)
+public class Literals {}
+PARSER_END(Literals)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    LiteralsTokenManager mgr = new LiteralsTokenManager(scs);
+    while (mgr.getNextToken().kind != EOF) {}
+  }
+  public static void CommonTokenAction(Token t) {
+    if (t.kind == EOF) {
+      debugStream.println("Found the end of file token");
+    } else {
+      debugStream.println("Found token:" + t.image);
+    }
+  }
+}    
+TOKEN : {
+  <HELLO : "hello">
+}

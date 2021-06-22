@@ -1,0 +1,27 @@
+PARSER_BEGIN(Logo)
+import java.io.*;
+public class Logo {
+  public static void main(String[] args) throws Exception {
+    Reader r = new FileReader(args[0]);
+    Logo p = new Logo(r);
+    p.Program();
+ }
+}
+PARSER_END(Logo)
+SKIP : {
+  " " | "\n" | "\r" | "\r\n"
+}
+TOKEN : {
+  <FORWARD : "FORWARD">
+  | <RIGHT : "RIGHT">
+  | <DIGITS: (["1"-"9"])+ (["0"-"9"])*>
+}
+void Program() : {} {
+  (Move() | Turn())+
+}
+void Move() : {} {
+  <FORWARD> <DIGITS>
+}
+void Turn() : {} {
+  <RIGHT> <DIGITS>
+}

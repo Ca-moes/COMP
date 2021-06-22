@@ -1,0 +1,15 @@
+PARSER_BEGIN(PhoneParser)
+public class PhoneParser {}
+PARSER_END(PhoneParser)
+SKIP : { " " }
+TOKEN : {
+  <FOUR_DIGITS : (<DIGITS><DIGITS><DIGITS><DIGITS>)>
+  | <THREE_DIGITS : (<DIGITS><DIGITS><DIGITS>)>
+  | <#DIGITS : ["0"-"9"]>
+}
+void PhoneList() : {} {
+  (PhoneNumber())+
+}
+void PhoneNumber() : {} {
+  <THREE_DIGITS> "-" <THREE_DIGITS> "-" <FOUR_DIGITS>
+}

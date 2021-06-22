@@ -1,0 +1,38 @@
+options {
+  MULTI=true;
+  VISITOR=true;
+  JDK_VERSION="1.5";
+}
+PARSER_BEGIN(Postfix)
+import java.io.*;
+public class Postfix {
+  public static void main(String[] args) throws Exception {
+    Reader sr = new StringReader(args[0]);
+    Postfix p = new Postfix(sr);
+    ASTExpression e = p.Expression();
+    e.dump("");
+    CalcVisitor c = new CalcVisitor();
+    e.jjtAccept(c, null);
+    System.out.println(c.stack.pop());
+  }
+}
+PARSER_END(Postfix)
+SKIP : {" "}
+TOKEN : {
+    <PLUS: "+">
+  | <MINUS: "-">
+  | <DIGITS: (["0"-"9"])+>
+}
+ASTExpression Expression() : {} {
+  Factor() (Term() Operator())*
+  {return jjtThis;}
+}
+void Term() : {} {
+  LOOKAHEAD(2) Expression() | Factor()
+}
+void Factor() : {Token t;} {
+  t=<DIGITS> {jjtThis.value = Integer.parseInt(t.image);}
+}
+void Operator() : {} {
+  "+" {jjtThis.plus = true;} | "-" 
+}

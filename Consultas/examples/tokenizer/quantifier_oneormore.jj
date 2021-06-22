@@ -1,0 +1,20 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(QuantifierOneOrMore)
+public class QuantifierOneOrMore {}
+PARSER_END(QuantifierOneOrMore)
+TOKEN_MGR_DECLS : {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    QuantifierOneOrMoreTokenManager mgr = new QuantifierOneOrMoreTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        debugStream.println("Found token:" + t.image);
+    }
+  }
+}
+TOKEN : {
+  <ONE_OR_MORE_A : ("a")+ >
+}

@@ -1,0 +1,23 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(LexicalActionAdd)
+public class LexicalActionAdd {}
+PARSER_END(LexicalActionAdd)
+TOKEN_MGR_DECLS: {
+  private static int count;
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    LexicalActionAddTokenManager mgr = new LexicalActionAddTokenManager(scs);
+    while (mgr.getNextToken().kind != EOF) {}
+    debugStream.println("Got " + count + " hellos");
+  }
+}    
+SKIP : { 
+  " " 
+}
+TOKEN : {
+  <HELLO : "hello"> { count++; }
+  | <WORLD : "world"> 
+}

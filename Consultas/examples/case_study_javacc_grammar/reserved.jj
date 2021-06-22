@@ -1,0 +1,8 @@
+PARSER_BEGIN(Reserved)
+public class Reserved {
+  private static final boolean IGNORE_CASE = true;
+}
+PARSER_END(Reserved)
+TOKEN : {
+  <HELLO : "hello">
+}

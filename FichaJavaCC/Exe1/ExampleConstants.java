@@ -11,7 +11,9 @@ public interface ExampleConstants {
   /** RegularExpression Id. */
   int INTEGER = 4;
   /** RegularExpression Id. */
-  int LF = 5;
+  int OPERATOR = 5;
+  /** RegularExpression Id. */
+  int LF = 6;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -23,8 +25,8 @@ public interface ExampleConstants {
     "\"\\t\"",
     "\"\\r\"",
     "<INTEGER>",
+    "<OPERATOR>",
     "\"\\n\"",
-    "<token of kind 6>",
   };
 
 }

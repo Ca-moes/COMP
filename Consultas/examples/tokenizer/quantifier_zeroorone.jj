@@ -1,0 +1,20 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(QuantifierZeroOrOne)
+public class QuantifierZeroOrOne {}
+PARSER_END(QuantifierZeroOrOne)
+TOKEN_MGR_DECLS : {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    QuantifierZeroOrOneTokenManager mgr = new QuantifierZeroOrOneTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        debugStream.println("Found token:" + t.image);
+    }
+  }
+}
+TOKEN : {
+  <SIGNED_DIGIT : (["+","-"])? ["0"-"9"]>
+}

@@ -1,0 +1,23 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(SkipUppercase)
+public class SkipUppercase {}
+PARSER_END(SkipUppercase)
+TOKEN_MGR_DECLS : {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    SkipUppercaseTokenManager mgr = new SkipUppercaseTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        debugStream.println("Found token:" + t.image);
+    }
+  }
+}
+SKIP : {
+  <NO_UPPER : ["A"-"Z"] >
+}
+TOKEN : {
+  <HELLO : "hello">
+}

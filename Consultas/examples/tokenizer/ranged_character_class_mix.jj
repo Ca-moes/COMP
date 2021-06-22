@@ -1,0 +1,21 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(RangedCharacterClassMix)
+public class RangedCharacterClassMix {}
+PARSER_END(RangedCharacterClassMix)
+TOKEN_MGR_DECLS : {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    RangedCharacterClassMixTokenManager mgr = new RangedCharacterClassMixTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        debugStream.println("Found token:" + t.image);
+    }
+  }
+}
+TOKEN : {
+  <A_OR_C_OR_X_TO_Z: ["a","c","x"-"z"] >
+}
+

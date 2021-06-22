@@ -1,0 +1,10 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(NeverMatch)
+public class NeverMatch {}
+PARSER_END(NeverMatch)
+TOKEN : {
+  <HELLO_MAYBE_WORLD : "hello" ("world")? >
+  | <HELLO : "hello">
+}

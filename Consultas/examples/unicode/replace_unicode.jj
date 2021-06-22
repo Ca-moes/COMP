@@ -1,0 +1,25 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(Replacer)
+public class Replacer {}
+PARSER_END(Replacer)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    ReplacerTokenManager mgr = new ReplacerTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        System.out.println("Found token:" + t.image);
+    }
+  }
+}    
+SKIP : {
+  " " | "\n"
+}
+TOKEN : {
+  <WORD : (["A"-"Z","a"-"z","\u0080"-"\uFFFF"])+>  {
+    matchedToken.image = matchedToken.image.replaceAll("[\u0080-\uFFFF]", "?"); 
+  } 
+}

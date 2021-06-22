@@ -1,0 +1,52 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(Logo)
+public class Logo {}
+PARSER_END(Logo)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) throws Exception {
+    java.io.Reader r = new java.io.FileReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(r);
+    LogoTokenManager mgr = new LogoTokenManager(scs);
+    while (true) {
+      try {
+        if (readAllTokens(mgr).kind == EOF) {
+          break;
+        }
+      } catch (TokenMgrError tme) {
+        System.out.println("TokenMgrError: " + tme.getMessage());
+        String skipped = recoverTo(' ');
+        System.out.println("Skipped bad input: " + skipped);
+        if (skipped.equals("RIHGT")) {
+          System.out.println("Did you mean 'RIGHT'?");
+        }
+      }
+    }
+  }
+  private static Token readAllTokens(LogoTokenManager mgr) {
+    Token t = mgr.getNextToken();
+    for (; t.kind != EOF; t = mgr.getNextToken()) {
+      System.out.println("Found a " + LogoConstants.tokenImage[t.kind]);
+
+    }
+    return t;
+  }
+  private static String recoverTo(char delimiter) throws java.io.IOException {
+    System.out.println("Skipping ahead...");
+    String skipped = input_stream.GetImage(); 
+    char c;
+    while ((c = input_stream.readChar()) != delimiter) {
+      skipped += c;
+    }
+    return skipped;
+  }
+}    
+SKIP : {
+  " " | "\n" | "\r" | "\r\n"
+}
+TOKEN : {
+  <FORWARD : "FORWARD">
+  | <RIGHT : "RIGHT">
+  | <DIGITS: (["1"-"9"])+ (["0"-"9"])*>
+}

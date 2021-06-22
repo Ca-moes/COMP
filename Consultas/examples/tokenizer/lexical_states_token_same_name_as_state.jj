@@ -1,0 +1,14 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(LexicalStatesColors)
+public class LexicalStatesColors {}
+PARSER_END(LexicalStatesColors)
+TOKEN : {
+  <RED: "red"> : RED 
+}
+
+<RED> 
+TOKEN : {
+  <DONE : "done"> : DEFAULT 
+}

@@ -1,0 +1,51 @@
+options {
+  VISITOR=true;
+  MULTI=true;
+}
+PARSER_BEGIN(Logo)
+import java.io.*;
+public class Logo {
+  public static void main(String[] args) throws Exception {
+    Reader r = new FileReader(args[0]);
+    Logo parser = new Logo(r);
+    ASTProgram program = parser.Program();
+    program.dump("");
+ }
+}
+PARSER_END(Logo)
+SKIP : {
+  " " 
+}
+TOKEN : {
+  <FORWARD : "FORWARD">
+  | <RIGHT : "RIGHT">
+  | <DIGITS: (["1"-"9"])+ (["0"-"9"])*>
+  | <EOL : "\r" | "\n" | "\r\n">
+}
+ASTProgram Program() : {} {
+  (
+    try {
+      Move() 
+      | Turn() 
+    } catch (ParseException pe) {
+      System.out.println("Skipping line " + pe.currentToken.beginLine + " due to a parsing problem");
+      skipThisCommand(); 
+      jjtree.popNode();
+    }
+  )+ 
+  {return jjtThis;}
+}
+void Move() : {} {
+  <FORWARD> <DIGITS> <EOL>
+}
+void Turn() : {} {
+  <RIGHT> <DIGITS> <EOL>
+}
+JAVACODE
+String skipThisCommand() #void {
+  Token t;
+  do {
+    t = getNextToken();
+  } while (t.kind != EOL);
+  return t.image;
+}

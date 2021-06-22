@@ -1,0 +1,26 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(Skipper)
+public class Skipper {}
+PARSER_END(Skipper)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    SkipperTokenManager mgr = new SkipperTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        System.out.println("Found token:" + t.image);
+    }
+  }
+}    
+SKIP : {
+  " " | "\n"
+}
+SKIP : {
+  <UNICODE : ["\u0080"-"\uFFFF"]>
+}
+TOKEN : {
+  <WORD : (["A"-"Z","a"-"z"])+>
+}

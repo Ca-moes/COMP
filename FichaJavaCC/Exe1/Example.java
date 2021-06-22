@@ -6,14 +6,15 @@ public class Example implements ExampleConstants {
       parser.Aritm();
     }
 
-  static final public void Aritm() throws ParseException {Token t1,t2;
+  static final public void Aritm() throws ParseException {Token t1, t2, t3;
     t1 = jj_consume_token(INTEGER);
-System.out.println("Integer = "+t1.image);
+System.out.println("Integer = " + t1.image);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 6:{
-      t3 = jj_consume_token(6);
-      t2 = jj_consume_token(INTEGER);
-System.out.println("Integer = "+t2.image + t3.image);
+    case OPERATOR:{
+      t2 = jj_consume_token(OPERATOR);
+System.out.println("Operator = " + t2.image);
+      t3 = jj_consume_token(INTEGER);
+System.out.println("Integer = " + t3.image);
       break;
       }
     default:
@@ -39,7 +40,7 @@ System.out.println("Integer = "+t2.image + t3.image);
 	   jj_la1_init_0();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x40,};
+	   jj_la1_0 = new int[] {0x20,};
 	}
 
   /** Constructor with InputStream. */
@@ -213,6 +214,7 @@ System.out.println("Integer = "+t2.image + t3.image);
 	 return new ParseException(token, exptokseq, tokenImage);
   }
 
+  static private int trace_indent = 0;
   static private boolean trace_enabled;
 
 /** Trace enabled. */

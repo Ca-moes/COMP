@@ -1,0 +1,29 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(NonDefault)
+public class NonDefault {}
+PARSER_END(NonDefault)
+TOKEN_MGR_DECLS : {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    NonDefaultTokenManager mgr = new NonDefaultTokenManager(scs, IN_HEADER);
+    while (mgr.getNextToken().kind != EOF) {}
+  }
+}
+
+<IN_HEADER>
+MORE : {
+  < ~[] >
+}
+
+<IN_HEADER>
+SPECIAL_TOKEN : {
+  <HEADER_NOTES: "---" > : DEFAULT
+}
+
+TOKEN : { 
+  <GREETING: "hello"> 
+  { debugStream.println("Got a greeting, header was " + matchedToken.specialToken.image);} 
+}

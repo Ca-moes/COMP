@@ -1,0 +1,20 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(CharacterClass)
+public class CharacterClass {}
+PARSER_END(CharacterClass)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    CharacterClassTokenManager mgr = new CharacterClassTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+      debugStream.println("Found token:" + t.image);
+    }
+  }
+}
+TOKEN : {
+  <A_OR_B_OR_C : ["a", "b", "c"]>
+}

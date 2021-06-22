@@ -1,0 +1,19 @@
+- JMMPARSER.jjt -> Existe if-else, não existe apenas if? nvm, existe apenas if
+- JMMPARSER.jjt -> l.228 - Em Statement não tem nos comentários o while() e o (Expression() <SEMICOLON>) mas tem 2 vezes o de {Statement*}
+- Main.java -> Como é que no src.Main encontra o JAVAMINUSMINUSPARSER? Em TestUtils.parse() tem aquele código nice para criar uma classe a partir de uma string e chamar uma instancia, neste caso do Main, mas como é que o Main tem acesso a JAVAMINUSMINUSPARSER?
+- Main.java -> No seguimento da de cima, porque é que o Main tem um main()? Não vejo onde esteja a ser usado
+- JmmNode.java -> l.123 - Que faz o sanitize? o.O Entendo que passa para JSON e de volta para um JmmNode, but why? o que é que remove lá do meio para dar limpeza? O Tiago Carvalho disse que era para ter a informação toda correta relativamente aos pais, dunno what that means
+- AJmmVisior.java -> visitDefalut comentado e defaultVisit em cima -> Foi mudado pelo Bispo, podemos deixar estar ou apaga-se?
+- JmmNode.java -> Podemos definir o Kind como sendo um Enum em vez de uma String? Assim para os Visitors fica mais fácil aplicar a um tipo e como os Kinds são finitos ficaria melhor
+- AJmmVisitor.java -> defaultVisit não deveria retornar this.defaultVisit em vez de null?
+- AnalysisStage.java -> Acho que falta o sanitize() antes de começar a dar visit
+
+Falta-nos
+- Uma implementação de um visitor que crie a SymbolTable, ou já está em JmmPreorderVisitor?
+- Uma implementação de Visitor que faça a Analise Semantica, recebendo uma symbol tables, retornando uma lista de Reports
+- Para o checkpoint 2 ainda temos de tratar de:
+```java
+OllirResult ollirResult = compiler.toOllir(semanticsResult); // Convert AST to OLLIR format
+JasminResult jasminResult = compiler.toJasmin(ollirResult, outputDir); // convert OLLIR to Jasmin Bytecode (only for code structures defined in the project ...)
+compiler.compile(jasminResult, outputDir); // This should generate the .class File
+```

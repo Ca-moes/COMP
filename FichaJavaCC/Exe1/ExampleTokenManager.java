@@ -28,7 +28,7 @@ static private int jjMoveStringLiteralDfa0_0(){
    switch(curChar)
    {
       case 10:
-         return jjStopAtPos(0, 5);
+         return jjStopAtPos(0, 6);
       default :
          return jjMoveNfa_0(1, 0);
    }
@@ -60,8 +60,8 @@ static private int jjMoveNfa_0(int startState, int curPos)
                   }
                   else if ((0x280000000000L & l) != 0L)
                   {
-                     if (kind > 6)
-                        kind = 6;
+                     if (kind > 5)
+                        kind = 5;
                   }
                   break;
                case 0:
@@ -113,7 +113,7 @@ static private int jjMoveNfa_0(int startState, int curPos)
 
 /** Token literal values. */
 public static final String[] jjstrLiteralImages = {
-"", null, null, null, null, "\12", null, };
+"", null, null, null, null, null, "\12", };
 static protected Token jjFillToken()
 {
    final Token t;

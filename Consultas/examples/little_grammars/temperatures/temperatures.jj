@@ -1,0 +1,25 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(Temperatures)
+public class Temperatures {}
+PARSER_END(Temperatures)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) throws Exception {
+    java.io.Reader r = new java.io.FileReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(r);
+    TemperaturesTokenManager mgr = new TemperaturesTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        System.out.println("Found a " + TemperaturesConstants.tokenImage[t.kind] + ": " + t.image);
+    }
+  }
+}    
+SKIP : {
+  "\n" | "\r" | "\r\n"
+}
+TOKEN : {
+  <FAHRENHEIT_TEMPERATURE : (["-"])? <DIGITS> " \u2109">
+  | <CELSIUS_TEMPERATURE : (["-"])? <DIGITS> " \u2103">
+  | <#DIGITS : ["0"-"9"](["0"-"9"])*>
+}

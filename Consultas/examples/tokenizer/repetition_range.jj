@@ -1,0 +1,20 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(RepetitionRange)
+public class RepetitionRange {}
+PARSER_END(RepetitionRange)
+TOKEN_MGR_DECLS : {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    RepetitionRangeTokenManager mgr = new RepetitionRangeTokenManager(scs);
+    for (Token t = mgr.getNextToken(); t.kind != EOF;
+      t = mgr.getNextToken()) {
+        debugStream.println("Found token:" + t.image);
+    }
+  }
+}
+TOKEN : {
+  <TWO_TO_FOUR_A : ("a"){2,4} >
+}

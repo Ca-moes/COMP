@@ -1,0 +1,23 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(LexicalAction)
+public class LexicalAction {}
+PARSER_END(LexicalAction)
+TOKEN_MGR_DECLS: {
+  public static void main(String[] args) {
+    java.io.StringReader sr = new java.io.StringReader(args[0]);
+    SimpleCharStream scs = new SimpleCharStream(sr);
+    LexicalActionTokenManager mgr = new LexicalActionTokenManager(scs);
+    while ((mgr.getNextToken()).kind != EOF) {}
+  }
+}    
+SKIP : { 
+  " " 
+}
+TOKEN : {
+  <HELLO : "hello"> 
+    { debugStream.println("Got a HELLO token"); }
+  | <WORLD : "world"> 
+    { debugStream.println("Got a WORLD token"); }
+}

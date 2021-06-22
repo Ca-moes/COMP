@@ -1,0 +1,37 @@
+
+options {
+  VISITOR=true;
+  MULTI=true;
+  STATIC=false;
+  JDK_VERSION="1.5";
+  OUTPUT_DIRECTORY="src";
+}
+PARSER_BEGIN(Logo)
+import java.io.*;
+public class Logo {
+  public static void main(String[] args) throws Exception {
+    Reader sr = new FileReader(args[0]);
+    Logo logo = new Logo(sr);
+    ASTProgram p = logo.Program();
+    p.dump("");
+ }
+}
+PARSER_END(Logo)
+SKIP : {
+  " " | "\n" | "\r" | "\r\n"
+}
+TOKEN : {
+  <FORWARD : "FORWARD">
+  | <RIGHT : "RIGHT">
+  | <DIGITS: (["1"-"9"])+ (["0"-"9"])*>
+}
+ASTProgram Program() : {} {
+  (Move() | Turn())+
+  {return jjtThis;}
+}
+void Move() : {} {
+  <FORWARD> <DIGITS>
+}
+void Turn() : {} {
+  <RIGHT> <DIGITS>
+}

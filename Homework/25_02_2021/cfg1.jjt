@@ -1,0 +1,61 @@
+options
+{
+    LOOKAHEAD=1;
+}
+
+PARSER_BEGIN(CFGA)
+
+public class CFGA {
+    public static void main(String[] args) throws ParseException {
+        System.out.println("Parser for CFG A");
+        Calculator cfga = new CFGA(System.in);
+        SimpleNode root = cfga.Start(); // returns reference to root node
+        root.dump("");  // prints the tree on the screen
+    }
+
+}
+
+PARSER_END(CFGA)
+
+SKIP :
+{
+    " " | "\t" | "\r"
+}
+
+TOKEN :
+{
+    < INT : "int" >
+    | < IDENT : (["a"-"z"]["0"-"9","a"-"z"])* >
+    | < VIRG : "," >
+    | < PVIRG : ";" >
+    | < CONST : (["0"-"9"])+ >
+    | < IGUAL : "=" >
+    | < MULT : "*" >
+    | < LF : "\n">
+
+}
+
+SimpleNode Start(): {}
+{
+    Decl() AttribConst() AttribExpr() <LF> { return jjtThis;} // Java code inside brackets
+}
+
+void Decl() : {}
+{
+    <INT> <IDENT> (<VIRG> <IDENT>)* <PVIRG>
+}
+
+void AttribConst() : {}
+{
+    <IDENT> <IGUAL> <CONST> <PVIRG>
+}
+
+void AttribExpr() : {}
+{
+    <IDENT> <IGUAL> Expr() <PVIRG>
+}
+
+void Expr() : {}
+{
+    <IDENT> <MULT> <IDENT>
+}

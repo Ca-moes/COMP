@@ -1,0 +1,27 @@
+options {
+    BUILD_PARSER=false;
+}
+PARSER_BEGIN(LexicalStatesRelabel)
+public class LexicalStatesRelabel {}
+PARSER_END(LexicalStatesRelabel)
+<IN_RED, IN_BLUE, IN_GREEN> SKIP : { " " }
+
+TOKEN : {
+  <RED: "red"> {debugStream.println("Switching to IN_RED");} : IN_RED 
+}
+
+<IN_RED>
+TOKEN : {
+  <BLUE : "blue"> {debugStream.println("Switching to IN_BLUE");} : IN_BLUE 
+}
+
+<IN_BLUE>
+TOKEN : { 
+  <GREEN : "green"> {debugStream.println("Switching to IN_GREEN");} : IN_GREEN 
+  | <RED_2 : <RED>> {debugStream.println("Switching to IN_RED");} : IN_RED 
+}
+
+<IN_GREEN>
+TOKEN : {
+  <DONE : "default"> {debugStream.println("Switching to DEFAULT");} : DEFAULT 
+}

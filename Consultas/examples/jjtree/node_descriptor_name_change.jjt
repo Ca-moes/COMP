@@ -1,0 +1,25 @@
+options {
+  MULTI=true;
+  VISITOR=true;
+}
+PARSER_BEGIN(Calculator)
+public class Calculator {}
+PARSER_END(Calculator)
+SKIP : {
+  " "
+}
+TOKEN : {
+  <DIGITS : (["0"-"9"])+> | <PLUS : "+">
+}
+SimpleNode Expression() #Expr : {} {
+  Operator() 
+  {return jjtThis;}
+}
+void Operator() #Op : {} {
+  Operand() 
+  "+" 
+  Operand()
+}
+void Operand() #Oprnd : {} {
+  <DIGITS> 
+}

@@ -1,0 +1,10 @@
+options {
+  BUILD_PARSER=false;
+}
+PARSER_BEGIN(FirstMatch)
+public class FirstMatch {}
+PARSER_END(FirstMatch)
+TOKEN : {
+  <HELLO : "hello">
+  | <HELLO_MAYBE_WORLD : "hello" ("world")? >
+}

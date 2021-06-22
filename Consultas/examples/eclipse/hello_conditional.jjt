@@ -1,0 +1,17 @@
+options {
+  JDK_VERSION = "1.5";
+}
+PARSER_BEGIN(Hello)
+public class Hello {
+}
+PARSER_END(Hello)
+TOKEN : {
+	<HELLO : "hello"> 
+}
+void hi() : {} {
+	<HELLO> #there(>1)
+}
+void there() : {} {
+	"there" 
+}
+  

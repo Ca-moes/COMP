@@ -1,0 +1,24 @@
+options {
+  STATIC=true;
+}
+PARSER_BEGIN(SimpleParser)
+import java.io.*;
+public class SimpleParser {
+  public static void main (String args[] ) throws ParseException {
+    String someInput = "a";
+    StringReader sr = new StringReader(someInput);
+    Reader r = new BufferedReader(sr);
+    SimpleParser parser = new SimpleParser(r);
+    parser.A();
+  }
+}
+PARSER_END(SimpleParser)
+TOKEN :
+{
+  <A : "a">
+}
+void A() : {}
+{ 
+  <A> {System.out.println("Found an 'a'!");}
+}
+
